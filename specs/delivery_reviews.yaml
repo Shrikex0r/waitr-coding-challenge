@@ -1,0 +1,123 @@
+swagger: "2.0"
+info:
+  description: Driver Review Service
+  version: "1.0.0"
+  title: WAITR Sample Service
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: api.waitrapp.com
+schemes:
+  - http
+
+parameters:
+  driverId:
+    name: driverId
+    in: path
+    description: A driver id.
+    required: true
+    type: string
+
+  deliveryId:
+    name: deliveryId
+    in: path
+    description: A delivery id.
+    required: true
+    type: string
+
+paths:
+  /drivers/{driverId}:
+    parameters:
+      - $ref: "#/parameters/driverId"
+    get:
+      operationId: GetDriver
+      tags:
+        - Drivers
+      responses:
+        '200':
+          description: Get a driver.
+          schema:
+            $ref: '#/definitions/Driver'
+        '404':
+          description: The driver does not exist.
+
+  /drivers/{driverId}/reviews:
+    parameters:
+      - $ref: "#/parameters/driverId"
+    get:
+      operationId: GetDriverReviews
+      tags:
+        - Drivers
+      responses:
+        '200':
+          description: Get a list of reviews for the driver.
+          schema:
+            $ref: '#/definitions/DriverReviewList'
+        '404':
+          description: The driver does not exist.
+
+  /drivers/{driverId}deliveries/{deliveryId}/review:
+    parameters:
+      - $ref: "#/parameters/driverId"
+      - $ref: "#/parameters/deliveryId"
+    post:
+      operationId: CreateDeliveryReview
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: Create a review for a delivery.
+          schema:
+            $ref: '#/definitions/DeliveryReview'
+
+definitions:
+  Driver:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      current_location:
+        $ref: '#/definitions/Location'
+
+  Location:
+    type: object
+    properties:
+      latitude:
+        type: number
+        format: float
+      longitude:
+        type: number
+        format: float
+
+  Review:
+    type: object
+    properties:
+      rating:
+        type: number
+        minimum: 1
+        maximum: 5
+      description:
+        type: string
+
+  DeliveryReview:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Review'
+    properties:
+      delivery_id:
+        type: string
+
+  DriverReview:
+    type: object
+    allOf:
+      - $ref: "#/definitions/Review"
+    properties:
+      driver_id:
+        type: string
+
+  DriverReviewList:
+    type: array
+    items:
+      $ref: "#/definitions/DriverReview"
