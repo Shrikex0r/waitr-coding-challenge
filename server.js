@@ -20,7 +20,12 @@ App.use(Swaggerize({
     handlers: Path.resolve('./handlers')
 }));
 
-Server.listen(8000, function () {
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 8000;
+}
+
+Server.listen(port, function () {
     App.swagger.api.host = this.address().address + ':' + this.address().port;
     /* eslint-disable no-console */
     console.log('App running on %s:%d', this.address().address, this.address().port);
