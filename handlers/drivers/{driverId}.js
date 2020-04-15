@@ -19,28 +19,17 @@ module.exports = {
             const result = await req.dbClient.query(stmt, values);
             console.log(result.rows);
             // TODO cleanup
-            res.status(200).send(result.rows[0]);
+            if (!Array.isArray(result.rows) || !result.rows.length) {
+                res.status(404);
+            } else {
+                res.status(200).send(result.rows[0]);
+            }
         } catch (err) {
             console.error(err);
             // TODO do we really want to send 404 for an internal error? This should be 5xx... but the spec disagrees.
             res.status(404).send(err);
-            return;
         } finally {
             req.dbClient.release();
         }
-
-        /**
-         * Get the data for response 200
-         * For response `default` status 200 is used.
-         */
-        var status = 200;
-        var provider = dataProvider['get']['200'];
-        provider(req, res, function (err, data) {
-            if (err) {
-                next(err);
-                return;
-            }
-            res.status(status).send(data && data.responses);
-        });
-    }
+  }
 };
