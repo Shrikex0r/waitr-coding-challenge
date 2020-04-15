@@ -1,5 +1,5 @@
 'use strict';
-var dataProvider = require('../../../../../data/drivers/{driverId}/deliveries/{deliveryId}/review.js');
+
 /**
  * Operations on /drivers/{driverId}/deliveries/{deliveryId}/review
  */
@@ -16,8 +16,8 @@ module.exports = {
         console.log(req.body.description);
 
         try {
-            // TODO confirm that driver req.params.driverId exists
-            // TODO confirm that delivery req.params.deliveryId exists
+            // TODO confirm that driver record req.params.driverId exists
+            // TODO confirm that delivery record req.params.deliveryId exists
             // bail with a 404 if the driver or delivery doesn't exist
 
             console.log(req.params);
@@ -30,7 +30,7 @@ module.exports = {
             const result = await req.dbClient.query(stmt, values);
             console.log(result);
 
-            res.status(200).send(result);
+            res.status(200).send();
         } catch (err) {
             console.error(err);
             // TODO do we really want to send 404 for an internal error? This should be 5xx... but the spec disagrees.

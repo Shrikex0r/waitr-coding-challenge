@@ -1,5 +1,5 @@
 'use strict';
-var dataProvider = require('../../../data/drivers/{driverId}/reviews.js');
+
 /**
  * Operations on /drivers/{driverId}/reviews
  */
