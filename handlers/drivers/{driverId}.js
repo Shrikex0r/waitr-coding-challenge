@@ -22,11 +22,8 @@ module.exports = {
         try {
             const client = await pool.connect()
             const result = await client.query('SELECT * FROM temp');
-            const results = { 'results': (result) ? result.rows : null};
             console.log(result.rows)
-            res.status(200).send(results);
             client.release();
-            return;
         } catch (err) {
             console.error(err);
             res.status(404).send(err);
