@@ -10,6 +10,7 @@ var App = Express();
 
 var Server = Http.createServer(App);
 
+// NOTE: The json parser only kicks in if the request includes the correct header: "Content-Type: application/json"
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({
     extended: true

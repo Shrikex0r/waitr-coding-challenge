@@ -11,23 +11,32 @@ module.exports = {
      * produces: 
      * responses: 200
      */
-    post: function CreateDeliveryReview(req, res, next) {
-        console.log(req.body);
+    post: async function CreateDeliveryReview(req, res, next) {
         console.log(req.body.rating);
         console.log(req.body.description);
 
-        /**
-         * Get the data for response 200
-         * For response `default` status 200 is used.
-         */
-        var status = 200;
-        var provider = dataProvider['post']['200'];
-        provider(req, res, function (err, data) {
-            if (err) {
-                next(err);
-                return;
-            }
-            res.status(status).send(data && data.responses);
-        });
+        try {
+            // TODO confirm that driver req.params.driverId exists
+            // TODO confirm that delivery req.params.deliveryId exists
+            // bail with a 404 if the driver or delivery doesn't exist
+
+            console.log(req.params);
+            const stmt = 'insert into delivery_reviews (delivery_id, rating, description) values ($1, $2, $3)';
+            const values = [
+                req.params.deliveryId,
+                req.body.rating,
+                req.body.description
+            ];
+            const result = await req.dbClient.query(stmt, values);
+            console.log(result);
+
+            res.status(200).send(result);
+        } catch (err) {
+            console.error(err);
+            // TODO do we really want to send 404 for an internal error? This should be 5xx... but the spec disagrees.
+            res.status(404).send(err);
+        } finally {
+            req.dbClient.release();
+        }
     }
 };
