@@ -15,26 +15,9 @@ App.use(BodyParser.urlencoded({
     extended: true
 }));
 
-// the connect-pgclient middleware should manage connection lifecycle for us
-var pgclient = require('connect-pgclient');
-var dbMiddleware = pgclient({
-    // Use all defaults; everything should be derived from context
-    config : {
-        connectionString: process.env.DATABASE_URL,
-        ssl: false
-    },
-});
-App.use(dbMiddleware)
-
-App.use(Swaggerize({
-    api: Path.resolve('./config/swagger.yaml'),
-    handlers: Path.resolve('./handlers')
-}));
-
 // Initialize a database connection pool and make it available to the request.
 // TODO: unsure of the lifecycle here. Does this create a new connection pool for each request? I sure hope not.
-// Does async cause issues in a middleware context? Let's find out!
-let databaseConnectionPool = async function(req, res, next) {
+let databaseConnectionPool = function(req, res, next) {
     console.log("connecting to " + process.env.DATABASE_URL);
 
     const { Pool } = require('pg')
@@ -43,20 +26,24 @@ let databaseConnectionPool = async function(req, res, next) {
         ssl: false
     });
 
-    // Doing the connect here incurs an obligation to release the client when done.
     // TODO: is there a lifecycle hook that can be installed after the main handler, to clean up resources?
-    // for now, we'll just be super careful to call client.release in each handler, but boy is that ugly and
-    // failure-prone and in need of fixing.
-    let client = await pool.connect()
-
-    // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding fields
-    // to an object here and expecting the downstream consumer to know about them... blerg.
-    req.dbClient = client
-
-    next()
+    // Doing the connect here incurs an obligation to release the client when done. For now, we'll just be
+    // super careful to call req.dbClient.release in each handler, but boy is that ugly and failure-prone and in
+    // need of fixing.
+    const client = pool.connect().then(client => {
+        // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding fields
+        // to an object here and expecting the downstream consumer to know about them... blerg.
+        req.dbClient = client();
+        next();
+    });
 }
 
-// App.use(databaseConnectionPool)
+App.use(databaseConnectionPool)
+
+App.use(Swaggerize({
+    api: Path.resolve('./config/swagger.yaml'),
+    handlers: Path.resolve('./handlers')
+}));
 
 // Derive port from environment variable; default to 8000 if not set
 let port = process.env.PORT;
