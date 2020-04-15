@@ -33,7 +33,7 @@ let databaseConnectionPool = function(req, res, next) {
     const client = pool.connect().then(client => {
         // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding fields
         // to an object here and expecting the downstream consumer to know about them... blerg.
-        req.dbClient = client();
+        req.dbClient = client;
         next();
     });
 }
