@@ -13,6 +13,8 @@ module.exports = {
      */
     post: function CreateDeliveryReview(req, res, next) {
         console.log(req.body);
+        console.log(req.body.rating);
+        console.log(req.body.description);
 
         /**
          * Get the data for response 200
