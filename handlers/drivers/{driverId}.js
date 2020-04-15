@@ -14,11 +14,24 @@ module.exports = {
     get: async function GetDriver(req, res, next) {
         // TODO shove this into middleware and pull a pooled connection from the context
         const { Client } = require('pg')
-        const client = new Client()
-        await client.connect()
+        const pool = new Pool({
+            connectionString: process.env.DATABASE_URL,
+            ssl: true
+        });
 
-        const result = await client.query('SELECT * from temp')
-        console.log(result.rows)
+        try {
+            const client = await pool.connect()
+            const result = await client.query('SELECT * FROM temp');
+            const results = { 'results': (result) ? result.rows : null};
+            console.log(result.rows)
+            res.status(200).send(results);
+            client.release();
+            return;
+        } catch (err) {
+            console.error(err);
+            res.status(404).send(err);
+            return;
+        }
 
         /**
          * Get the data for response 200
