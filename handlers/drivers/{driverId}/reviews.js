@@ -5,10 +5,10 @@
  */
 module.exports = {
     /**
-     * summary: 
-     * description: 
-     * parameters: 
-     * produces: 
+     * summary: Fetch a list of reviews for this driver.
+     * description: Fetch an unfiltered, un-paged list of all delivery reviews for the provided driver ID.
+     * parameters:
+     *  - driverId: the ID of an existing driver
      * responses: 200, 404
      */
     get: async function GetDriverReviews(req, res, next) {

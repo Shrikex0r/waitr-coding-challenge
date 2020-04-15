@@ -5,10 +5,12 @@
  */
 module.exports = {
     /**
-     * summary: 
-     * description: 
-     * parameters: 
-     * produces: 
+     * summary: Create a review for a driver's delivery
+     * description: User must pass a JSON-formatted body with the 'rating' and 'description' fields filled in. The
+     *  driver ID and delivery ID provided as route parameters must correspond to existing records.
+     * parameters:
+     *  - driverId (not currently used): the ID of an existing driver
+     *  - deliveryId (the ID of an existing delivery
      * responses: 200
      */
     post: async function CreateDeliveryReview(req, res, next) {

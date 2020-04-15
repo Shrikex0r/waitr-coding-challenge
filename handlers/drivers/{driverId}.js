@@ -5,10 +5,10 @@
  */
 module.exports = {
     /**
-     * summary: 
-     * description: 
-     * parameters: 
-     * produces: 
+     * summary: Fetch a driver by ID.
+     * description: Fetch a driver by ID.
+     * parameters:
+     *  - driverId: the ID of an existing driver
      * responses: 200, 404
      */
     get: async function GetDriver(req, res, next) {
