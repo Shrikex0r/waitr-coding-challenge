@@ -22,8 +22,25 @@ App.use(Swaggerize({
 
 // Initialize a database connection pool and make it available to the request.
 // TODO: unsure of the lifecycle here. Does this create a new connection pool for each request? I sure hope not.
-let databaseConnectionPool = function(req, res, next) {
-    console.log('yo, embed a database connection pool vendor here')
+// Does async cause issues in a middleware context? Let's find out!
+let databaseConnectionPool = async function(req, res, next) {
+    console.log("connecting to " + process.env.DATABASE_URL);
+
+    const { Pool } = require('pg')
+    const pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: false
+    });
+
+    // Doing the connect here incurs an obligation to release the client when done.
+    // TODO: is there a lifecycle hook that can be installed after the main handler, to clean up resources?
+    // for now, we'll just be super careful to call client.release in each handler, but boy is that ugly and
+    // failure-prone and in need of fixing.
+    const client = await pool.connect()
+    // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding fields
+    // to an object here and expecting the downstream consumer to know about them... blerg.
+    req.dbClient = client
+
     next()
 }
 

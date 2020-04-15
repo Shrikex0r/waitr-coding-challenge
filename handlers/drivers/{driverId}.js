@@ -12,24 +12,16 @@ module.exports = {
      * responses: 200, 404
      */
     get: async function GetDriver(req, res, next) {
-        // TODO shove this into middleware and pull a pooled connection from the context
-        console.log("connecting to " + process.env.DATABASE_URL);
-
-        const { Pool } = require('pg')
-        const pool = new Pool({
-            connectionString: process.env.DATABASE_URL,
-            ssl: false
-        });
-
         try {
-            const client = await pool.connect()
-            const result = await client.query('SELECT * FROM temp');
+            const result = await req.dbClient.query('SELECT * FROM temp');
             console.log(result.rows)
-            client.release();
         } catch (err) {
             console.error(err);
+            // TODO do we really want to send 404 for an internal error? This should be 5xx... but the spec disagrees.
             res.status(404).send(err);
             return;
+        } finally {
+            req.dbClient.release();
         }
 
         /**
