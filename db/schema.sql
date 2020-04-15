@@ -68,8 +68,5 @@ create table if not exists delivery_reviews (
     description text
 );
 
-
-select delivery_reviews.id, delivery_reviews.delivery_id, delivery_reviews.rating, delivery_reviews.description
-from delivery_reviews
-inner join deliveries on delivery_reviews.delivery_id = deliveries.id
-where deliveries.driver_id = ?
+-- seed a delivery review.
+insert into delivery_reviews (delivery_id, rating, description) values (16, '2', 'dinner was flung onto roof, got stuck in chimney, burned house down. fries were delicious.');

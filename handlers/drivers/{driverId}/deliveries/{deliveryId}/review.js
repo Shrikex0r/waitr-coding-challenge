@@ -12,6 +12,8 @@ module.exports = {
      * responses: 200
      */
     post: function CreateDeliveryReview(req, res, next) {
+        console.log(req.body);
+
         /**
          * Get the data for response 200
          * For response `default` status 200 is used.

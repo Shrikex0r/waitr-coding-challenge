@@ -31,21 +31,25 @@ let databaseConnectionPool = function(req, res, next) {
     // super careful to call req.dbClient.release in each handler, but boy is that ugly and failure-prone and in
     // need of fixing.
     const client = pool.connect().then(client => {
-        // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding fields
-        // to an object here and expecting the downstream consumer to know about them... blerg.
+        // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding
+        // fields to an object here and expecting the downstream consumer to know about them... blerg.
         req.dbClient = client;
         next();
     });
 }
 
+// install the db connection middleware
 App.use(databaseConnectionPool)
+
+// NOTE: It appears the Swaggerize middleware has to be last; the db connection doesn't work if it's installed after
+// swaggerize.
 
 App.use(Swaggerize({
     api: Path.resolve('./config/swagger.yaml'),
     handlers: Path.resolve('./handlers')
 }));
 
-// Derive port from environment variable; default to 8000 if not set
+// Derive port from environment variable; default to 8000 if not set. This parameter will be set on Heroku instances.
 let port = process.env.PORT;
 if (port == null || port == "") {
     port = 8000;
