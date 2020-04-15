@@ -17,6 +17,9 @@ postgres backend, I ended up with no test coverage. To make up for this fact, I'
 have implemented had I been able to figure out the correct set of tools and idioms for this new stack. More details
 are available in the README file inside the `tests` directory.
 
+I've made liberal use of TODO comments where something is either missing or needs more work, or deviates from the
+provided spec.
+
 # File and directory structure
 - Project root
   - Procfile: this is the main Heroku entrypoint and specifies how to run the application on Heroku.

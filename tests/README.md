@@ -25,6 +25,8 @@ dependency library uses singletons or static variables to do its work).
 I'll lay out test cases below by path, with scenarios and expected results clearly defined. Test cases will all 
 reference the static seed data defined in this project's db/schema.sql file.
 
+Except where specifically called out, each of these test cases has been validated manually with curl.
+
 ## /drivers/{driverId} (GET)
 1. Happy path. User queries for existing driver id 3 (/drivers/3) and gets a 200 OK with the record for driver 
     No. 3: Niki Lauda.
@@ -41,4 +43,22 @@ reference the static seed data defined in this project's db/schema.sql file.
 1. Existing driver with deliveries but no existing reviews (/drivers/5/reviews). Response is a 404.
 
 ## /drivers/{driverID}/deliveries/{deliveryID} (POST)
-TODO
+NOTE: Record creation requires that you pass the Content-Type header like so:
+```
+curl -v https://waitr-coding-challenge.herokuapp.com/drivers/4/deliveries/5/review \
+ -H "Content-Type: application/json" \
+ -d @review.json
+```
+
+1. Happy path. Use curl to pass a valid JSON body for a driver/delivery tuple which already exists in the database, and
+   validate that requesting a review list for that driver now includes a correct copy of the input.
+1. (not yet implemented) attempting to create a review for an existing driver but a nonexistent delivery should fail.
+1. (not yet implemented) attempting to create a review for a nonexistent driver should fail.
+
+## Cross-cutting test cases
+These test cases should be included for all endpoints:
+- missing/malformed input should be handled gracefully without a crash or unhandled error that bubbles up to the user 
+in raw form (output should have comprehensible error messages, links to documentation, etc. Preferably no stack traces).
+- malformed route parameters (missing entirely, non-numeric values for numeric fields) should be handled as above.
+- unit tests should cover database errors, rollbacks, and any other exceptional condition that cannot reliably be 
+recreated by an end-user of the service.
