@@ -14,8 +14,7 @@ module.exports = {
     get: async function GetDriver(req, res, next) {
         try {
             const result = await req.dbClient.query('SELECT * FROM temp');
-            console.log("result: %s", result);
-            console.log("rows: %s", result.rows);
+            console.log(result.rows);
         } catch (err) {
             console.error(err);
             // TODO do we really want to send 404 for an internal error? This should be 5xx... but the spec disagrees.
