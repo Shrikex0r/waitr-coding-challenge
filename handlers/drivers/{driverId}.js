@@ -20,7 +20,7 @@ module.exports = {
             console.log(result.rows);
             // TODO cleanup
             if (!Array.isArray(result.rows) || !result.rows.length) {
-                res.status(404);
+                res.status(404).send();
             } else {
                 res.status(200).send(result.rows[0]);
             }
