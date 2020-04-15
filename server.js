@@ -20,6 +20,16 @@ App.use(Swaggerize({
     handlers: Path.resolve('./handlers')
 }));
 
+// Initialize a database connection pool and make it available to the request.
+// TODO: unsure of the lifecycle here. Does this create a new connection pool for each request? I sure hope not.
+let databaseConnectionPool = function(req, res, next) {
+    console.log('yo, embed a database connection pool vendor here')
+    next()
+}
+
+App.use(databaseConnectionPool)
+
+// Derive port from environment variable; default to 8000 if not set
 let port = process.env.PORT;
 if (port == null || port == "") {
     port = 8000;
