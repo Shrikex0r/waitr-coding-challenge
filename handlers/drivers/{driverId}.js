@@ -18,7 +18,10 @@ module.exports = {
             const values = [req.params.driverId]
             const result = await req.dbClient.query(stmt, values);
             console.log(result.rows);
-            // TODO cleanup
+
+            // TODO plug in location info
+
+            // Bail with a 404 if the record wasn't found
             if (!Array.isArray(result.rows) || !result.rows.length) {
                 res.status(404).send();
             } else {
@@ -31,5 +34,5 @@ module.exports = {
         } finally {
             req.dbClient.release();
         }
-  }
+    }
 };

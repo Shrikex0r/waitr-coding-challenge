@@ -67,3 +67,9 @@ create table if not exists delivery_reviews (
     rating review_rating_stars not null,
     description text
 );
+
+
+select delivery_reviews.id, delivery_reviews.delivery_id, delivery_reviews.rating, delivery_reviews.description
+from delivery_reviews
+inner join deliveries on delivery_reviews.delivery_id = deliveries.id
+where deliveries.driver_id = ?
