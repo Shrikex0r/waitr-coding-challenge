@@ -18,6 +18,8 @@
         "express": "^4.0.0",
         "pg": "^8.0.2",
         "pg-promise": "^10.5.0",
+        "pgtest": "^0.2.3",
+        "rewire": "^5.0.0",
         "swaggerize-express": "^4.0.0",
         "swagmock": "~0.0.2"
     },
