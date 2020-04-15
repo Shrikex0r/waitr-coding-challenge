@@ -19,13 +19,23 @@ module.exports = {
             const result = await req.dbClient.query(stmt, values);
             console.log(result.rows);
 
-            // TODO plug in location info
-
             // Bail with a 404 if the record wasn't found
             if (!Array.isArray(result.rows) || !result.rows.length) {
                 res.status(404).send();
             } else {
-                res.status(200).send(result.rows[0]);
+                // Construct a new record decorated with the driver's location data.
+                // TODO: this should come from some sort of injected service (not the DB)... just hardcode it for now.
+                let row = result.rows[0]
+                let record = {
+                    'id': row['id'],
+                    'name': row['name'],
+                    'location': {
+                        'latitude': 47.620744,
+                        'longitude': -122.349224
+                    }
+                }
+
+                res.status(200).send(record);
             }
         } catch (err) {
             console.error(err);
