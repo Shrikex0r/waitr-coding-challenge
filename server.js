@@ -29,5 +29,6 @@ Server.listen(port, function () {
     App.swagger.api.host = this.address().address + ':' + this.address().port;
     /* eslint-disable no-console */
     console.log('App running on %s:%d', this.address().address, this.address().port);
+    console.log('Will attempt to connect to Postgres at %s', process.env.DATABASE_URL);
     /* eslint-disable no-console */
 });

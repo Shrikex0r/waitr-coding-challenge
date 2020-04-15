@@ -13,7 +13,9 @@ module.exports = {
      */
     get: async function GetDriver(req, res, next) {
         // TODO shove this into middleware and pull a pooled connection from the context
-        const { Client } = require('pg')
+        console.log("connecting to " + process.env.DATABASE_URL);
+
+        const { Pool } = require('pg')
         const pool = new Pool({
             connectionString: process.env.DATABASE_URL,
             ssl: true
