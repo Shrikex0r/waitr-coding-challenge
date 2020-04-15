@@ -1,5 +1,5 @@
 'use strict';
-var dataProvider = require('../../data/drivers/{driverId}.js');
+
 /**
  * Operations on /drivers/{driverId}
  */
@@ -11,7 +11,15 @@ module.exports = {
      * produces: 
      * responses: 200, 404
      */
-    get: function GetDriver(req, res, next) {
+    get: async function GetDriver(req, res, next) {
+        // TODO shove this into middleware and pull a pooled connection from the context
+        const { Client } = require('pg')
+        const client = new Client()
+        await client.connect()
+
+        const result = await client.query('SELECT * from temp')
+        console.log(result.rows)
+
         /**
          * Get the data for response 200
          * For response `default` status 200 is used.

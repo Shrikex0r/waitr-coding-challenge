@@ -1854,10 +1854,11 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path" value="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-darwin-x64/bin/node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.gutterIcons" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -1869,7 +1870,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1586834003861</updated>
-      <workItem from="1586834008050" duration="5044000" />
+      <workItem from="1586834008050" duration="11237000" />
     </task>
     <servers />
   </component>
@@ -1888,17 +1889,25 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="768" y="310" key="#Project_Structure" timestamp="1586906800056">
+      <screen x="0" y="23" width="2560" height="1413" />
+    </state>
+    <state x="768" y="310" key="#Project_Structure/0.23.2560.1413@0.23.2560.1413" timestamp="1586906800056" />
+    <state x="672" y="565" key="#SQL_Dialects" timestamp="1586910677327">
+      <screen x="0" y="23" width="2560" height="1413" />
+    </state>
+    <state x="672" y="565" key="#SQL_Dialects/0.23.2560.1413@0.23.2560.1413" timestamp="1586910677327" />
     <state x="1029" y="538" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586839985854">
       <screen x="0" y="23" width="2560" height="1413" />
     </state>
     <state x="1029" y="538" key="#com.intellij.fileTypes.FileTypeChooser/0.23.2560.1413@0.23.2560.1413" timestamp="1586839985854" />
-    <state x="789" y="368" key="SettingsEditor" timestamp="1586836334157">
+    <state x="789" y="368" key="SettingsEditor" timestamp="1586908192153">
       <screen x="0" y="23" width="2560" height="1413" />
     </state>
-    <state x="789" y="368" key="SettingsEditor/0.23.2560.1413@0.23.2560.1413" timestamp="1586836334157" />
-    <state x="980" y="364" width="600" height="729" key="find.popup" timestamp="1586835523871">
+    <state x="789" y="368" key="SettingsEditor/0.23.2560.1413@0.23.2560.1413" timestamp="1586908192153" />
+    <state x="980" y="364" width="600" height="729" key="find.popup" timestamp="1586841162593">
       <screen x="0" y="23" width="2560" height="1413" />
     </state>
-    <state x="980" y="364" width="600" height="729" key="find.popup/0.23.2560.1413@0.23.2560.1413" timestamp="1586835523871" />
+    <state x="980" y="364" width="600" height="729" key="find.popup/0.23.2560.1413@0.23.2560.1413" timestamp="1586841162593" />
   </component>
 </project>
