@@ -15,6 +15,17 @@ App.use(BodyParser.urlencoded({
     extended: true
 }));
 
+// the connect-pgclient middleware should manage connection lifecycle for us
+var pgclient = require('connect-pgclient');
+var dbMiddleware = pgclient({
+    // Use all defaults; everything should be derived from context
+    config : {
+        connectionString: process.env.DATABASE_URL,
+        ssl: false
+    },
+});
+App.use(dbMiddleware)
+
 App.use(Swaggerize({
     api: Path.resolve('./config/swagger.yaml'),
     handlers: Path.resolve('./handlers')
@@ -36,7 +47,8 @@ let databaseConnectionPool = async function(req, res, next) {
     // TODO: is there a lifecycle hook that can be installed after the main handler, to clean up resources?
     // for now, we'll just be super careful to call client.release in each handler, but boy is that ugly and
     // failure-prone and in need of fixing.
-    const client = await pool.connect()
+    let client = await pool.connect()
+
     // TODO what's the preferred way of having properly defined and scoped context objects? Just randomly adding fields
     // to an object here and expecting the downstream consumer to know about them... blerg.
     req.dbClient = client
@@ -44,7 +56,7 @@ let databaseConnectionPool = async function(req, res, next) {
     next()
 }
 
-App.use(databaseConnectionPool)
+// App.use(databaseConnectionPool)
 
 // Derive port from environment variable; default to 8000 if not set
 let port = process.env.PORT;
