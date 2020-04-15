@@ -25,13 +25,11 @@ module.exports = {
             const result = await req.dbClient.query(stmt, values);
             console.log(result.rows);
 
-            // TODO plug in location info
-
             // Bail with a 404 if there are no deliveries or no reviews for the given driver
             if (!Array.isArray(result.rows) || !result.rows.length) {
                 res.status(404).send();
             } else {
-                res.status(200).send(result.rows[0]);
+                res.status(200).send(result.rows);
             }
         } catch (err) {
             console.error(err);
