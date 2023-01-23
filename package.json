@@ -30,7 +30,7 @@
         "istanbul": "~0.4.3",
         "is-my-json-valid": "^2.13.1",
         "js-yaml": "^3.2.6",
-        "supertest": "^1.2.0",
+        "supertest": "^6.3.3",
         "swagger-parser": "^3.4.1"
     },
     "scripts": {
